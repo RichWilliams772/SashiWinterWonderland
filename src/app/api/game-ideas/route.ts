@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { isRsvpConfigured } from "@/lib/rsvp";
+import { getSupabaseAdmin } from "@/lib/supabase-admin";
 
 export const runtime = "nodejs";
 
@@ -48,27 +49,19 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, message: "Please enter a game idea." }, { status: 400 });
   }
 
-  if (!isRsvpConfigured()) {
+  const admin = getSupabaseAdmin();
+  if (!admin.ok || !isRsvpConfigured()) {
     return NextResponse.json({ ok: true, savedLocally: true });
   }
 
-  const supabaseUrl = process.env.SUPABASE_URL!.replace(/\/$/, "");
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-
-  const response = await fetch(`${supabaseUrl}/rest/v1/game_ideas`, {
+  const response = await fetch(`${admin.url}/rest/v1/game_ideas`, {
     method: "POST",
-    headers: {
-      apikey: serviceKey,
-      Authorization: `Bearer ${serviceKey}`,
-      "Content-Type": "application/json",
-      Prefer: "return=minimal",
-    },
+    headers: admin.headers,
     body: JSON.stringify({ idea }),
   });
 
   if (!response.ok) {
-    const detail = await response.text();
-    console.error("Supabase game idea insert failed", response.status, detail);
+    console.error("Supabase game idea insert failed", response.status);
     return NextResponse.json(
       { ok: false, message: "We could not save that idea just now." },
       { status: 502 },

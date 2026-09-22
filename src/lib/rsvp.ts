@@ -1,4 +1,5 @@
 import type { AttendingOption } from "@/data/trip";
+import { isSupabaseAdminConfigured } from "@/lib/supabase-admin";
 
 export const ATTENDING_OPTIONS = ["yes", "no", "maybe"] as const;
 
@@ -67,7 +68,5 @@ export function validateRsvp(input: Partial<RsvpPayload>): {
 }
 
 export function isRsvpConfigured() {
-  return Boolean(
-    process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY,
-  );
+  return isSupabaseAdminConfigured();
 }

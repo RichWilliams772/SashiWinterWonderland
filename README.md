@@ -55,7 +55,7 @@ Row Level Security stays on, with no public read policy, so the guest list is no
 3. Framework preset: Next.js.
 4. Add the same environment variables:
    - `SUPABASE_URL`
-   - `SUPABASE_SERVICE_ROLE_KEY`
+   - `SUPABASE_SERVICE_ROLE_KEY` (the **service_role** / secret key, not anon or publishable)
 5. Deploy.
 6. Open the Vercel URL on your iPhone and send it to the group chat.
 

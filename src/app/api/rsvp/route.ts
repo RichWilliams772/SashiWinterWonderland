@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import { isRsvpConfigured, validateRsvp } from "@/lib/rsvp";
 import { trip } from "@/data/trip";
+import { isRsvpConfigured, validateRsvp } from "@/lib/rsvp";
+import { getSupabaseAdmin } from "@/lib/supabase-admin";
 
 export const runtime = "nodejs";
 
@@ -54,7 +55,8 @@ export async function POST(request: Request) {
     );
   }
 
-  if (!isRsvpConfigured()) {
+  const admin = getSupabaseAdmin();
+  if (!admin.ok || !isRsvpConfigured()) {
     return NextResponse.json(
       {
         ok: false,
@@ -65,17 +67,9 @@ export async function POST(request: Request) {
     );
   }
 
-  const supabaseUrl = process.env.SUPABASE_URL!.replace(/\/$/, "");
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-
-  const response = await fetch(`${supabaseUrl}/rest/v1/rsvps`, {
+  const response = await fetch(`${admin.url}/rest/v1/rsvps`, {
     method: "POST",
-    headers: {
-      apikey: serviceKey,
-      Authorization: `Bearer ${serviceKey}`,
-      "Content-Type": "application/json",
-      Prefer: "return=minimal",
-    },
+    headers: admin.headers,
     body: JSON.stringify({
       full_name: parsed.values.fullName,
       contact: parsed.values.contact,
@@ -86,8 +80,7 @@ export async function POST(request: Request) {
   });
 
   if (!response.ok) {
-    const detail = await response.text();
-    console.error("Supabase RSVP insert failed", response.status, detail);
+    console.error("Supabase RSVP insert failed", response.status);
     return NextResponse.json(
       {
         ok: false,
