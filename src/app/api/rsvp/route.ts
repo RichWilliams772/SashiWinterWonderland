@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { trip } from "@/data/trip";
+import { sendRsvpNotification } from "@/lib/rsvp-email";
 import { isRsvpConfigured, validateRsvp } from "@/lib/rsvp";
 import { getSupabaseAdmin } from "@/lib/supabase-admin";
 
@@ -89,6 +90,8 @@ export async function POST(request: Request) {
       { status: 502 },
     );
   }
+
+  await sendRsvpNotification(parsed.values);
 
   return NextResponse.json({ ok: true, message: trip.rsvp.success });
 }

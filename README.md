@@ -40,6 +40,9 @@ cp .env.example .env.local
 ```
 SUPABASE_URL=https://YOUR_PROJECT.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=YOUR_SERVICE_ROLE_KEY
+RESEND_API_KEY=YOUR_RESEND_API_KEY
+RSVP_NOTIFICATION_EMAIL=you@example.com
+RSVP_FROM_EMAIL=Sashi's Wonderland <beth.t@example.com>
 ```
 
 6. Restart `npm run dev` and send a test RSVP.
@@ -56,6 +59,9 @@ Row Level Security stays on, with no public read policy, so the guest list is no
 4. Add the same environment variables:
    - `SUPABASE_URL`
    - `SUPABASE_SERVICE_ROLE_KEY` (the **service_role** / secret key, not anon or publishable)
+   - `RESEND_API_KEY`
+   - `RSVP_NOTIFICATION_EMAIL`
+   - `RSVP_FROM_EMAIL`
 5. Deploy.
 6. Open the Vercel URL on your iPhone and send it to the group chat.
 
