@@ -62,10 +62,14 @@ Row Level Security stays on, with no public read policy, so the guest list is no
    - `RESEND_API_KEY`
    - `RSVP_NOTIFICATION_EMAIL`
    - `RSVP_FROM_EMAIL`
+   - `ADMIN_EMAIL`
+   - `ADMIN_SESSION_SECRET`
 5. Deploy.
 6. Open the Vercel URL on your iPhone and send it to the group chat.
 
 After deploy, send one RSVP yourself and confirm the row appears in the Supabase `rsvps` table.
+
+The private dashboard is at `/admin`. Create a Supabase Auth user whose email matches `ADMIN_EMAIL`, then sign in there to manage playlist songs and game-night ideas.
 
 ## What guests see
 
