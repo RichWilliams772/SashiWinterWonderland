@@ -1,6 +1,8 @@
 -- Run this in the Supabase SQL editor if you are setting up a new project.
--- For an existing project that is missing these tables, run:
+-- For an existing project that is missing RSVP tables, run:
 -- supabase/migrations/20260922_create_rsvps_and_game_ideas.sql
+-- For the trip playlist, also run:
+-- supabase/migrations/20260922_create_playlist_songs.sql
 
 create extension if not exists pgcrypto;
 
@@ -32,6 +34,25 @@ revoke all on table public.game_ideas from public, anon, authenticated;
 
 grant all on table public.rsvps to service_role;
 grant all on table public.game_ideas to service_role;
+
+create table if not exists public.playlist_songs (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  song_title text not null,
+  artist text not null,
+  submitted_by text,
+  music_url text,
+  title_key text generated always as (lower(btrim(song_title))) stored,
+  artist_key text generated always as (lower(btrim(artist))) stored,
+  constraint playlist_songs_title_len check (char_length(btrim(song_title)) between 1 and 120),
+  constraint playlist_songs_artist_len check (char_length(btrim(artist)) between 1 and 80),
+  constraint playlist_songs_unique_song unique (title_key, artist_key)
+);
+
+alter table public.playlist_songs enable row level security;
+alter table public.playlist_songs force row level security;
+revoke all on table public.playlist_songs from public, anon, authenticated;
+grant all on table public.playlist_songs to service_role;
 
 -- No public policies. Guests cannot read or write these tables from the browser.
 -- The Next.js API routes insert rows with the service role key.

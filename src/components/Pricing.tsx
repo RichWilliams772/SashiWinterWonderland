@@ -1,8 +1,6 @@
-"use client";
-
-import { useState } from "react";
+import { DownloadTripPdf } from "@/components/DownloadTripPdf";
 import { SectionHeading } from "@/components/SectionHeading";
-import { formatUsd, getTripDetailsText, trip } from "@/data/trip";
+import { formatUsd, trip } from "@/data/trip";
 
 const prices = [
   {
@@ -24,18 +22,6 @@ const prices = [
 ];
 
 export function Pricing() {
-  const [copied, setCopied] = useState(false);
-
-  async function copyDetails() {
-    try {
-      await navigator.clipboard.writeText(getTripDetailsText());
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 2200);
-    } catch {
-      setCopied(false);
-    }
-  }
-
   return (
     <section id="prices" className="scroll-mt-24 px-4 py-16">
       <SectionHeading eyebrow="Prices & Deadlines" title="What to Plan For" />
@@ -88,13 +74,7 @@ export function Pricing() {
         </p>
       </div>
       <div className="mt-8 flex justify-center">
-        <button
-          type="button"
-          onClick={copyDetails}
-          className="satin-btn rounded-full px-6 py-3 text-sm font-semibold text-ink"
-        >
-          {copied ? "Copied 💗" : "Copy Trip Details"}
-        </button>
+        <DownloadTripPdf />
       </div>
     </section>
   );

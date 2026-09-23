@@ -65,6 +65,13 @@ body {
     linear-gradient(180deg, #fde8f0 0%, #f7c9d6 42%, #f3d5c4 100%);
 }
 
+.opening-bg {
+  background:
+    radial-gradient(1000px 620px at 12% -8%, rgba(255, 248, 243, 0.96), transparent 58%),
+    radial-gradient(820px 520px at 108% 6%, rgba(253, 232, 240, 0.72), transparent 52%),
+    linear-gradient(180deg, #fde8f0 0%, #f6c2ce 46%, #fff8f3 100%);
+}
+
 .glass-card {
   background: linear-gradient(180deg, rgba(255, 248, 246, 0.78), rgba(253, 226, 234, 0.62));
   border: 1px solid rgba(255, 220, 228, 0.8);
@@ -95,19 +102,56 @@ body {
 
 .envelope-scene {
   perspective: 1400px;
+  position: relative;
+  width: min(20rem, 78vw, 58vh);
+  margin-inline: auto;
+  padding-top: 1.8rem;
+}
+
+.envelope-bow {
+  position: absolute;
+  top: -1.7rem;
+  left: 50%;
+  z-index: 8;
+  width: 4rem;
+  transform: translateX(-50%);
+  pointer-events: none;
 }
 
 .envelope {
-  width: min(20rem, 86vw);
-  height: 13.4rem;
+  width: 100%;
+  height: min(12.4rem, 30vh);
+  min-height: 8.5rem;
   position: relative;
+  overflow: hidden;
+  cursor: pointer;
   transform-style: preserve-3d;
   filter: drop-shadow(0 22px 30px rgba(90, 45, 58, 0.18));
+}
+
+.envelope.is-open {
+  overflow: visible;
+  cursor: default;
+}
+
+@media (max-height: 700px) {
+  .envelope-bow {
+    top: -1.35rem;
+    width: 3.4rem;
+  }
+}
+
+@media (max-height: 560px) {
+  .envelope {
+    height: min(9.2rem, 28vh);
+    min-height: 7.4rem;
+  }
 }
 
 .envelope-pocket {
   position: absolute;
   inset: 0;
+  z-index: 3;
   border-radius: 0.4rem 0.4rem 1.1rem 1.1rem;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 28%),
@@ -193,23 +237,30 @@ body {
   position: absolute;
   left: 8%;
   right: 8%;
-  top: 22%;
+  top: 18%;
   height: 68%;
   border-radius: 0.45rem;
   background: linear-gradient(180deg, #fffdfb, #fff1f5);
   box-shadow: 0 8px 18px rgba(90, 45, 58, 0.12);
   z-index: 2;
   pointer-events: none;
-  transform: translateY(70%);
-  opacity: 0.35;
+  visibility: hidden;
+  transform: translateY(110%);
+  opacity: 0;
   transition:
     transform 1s cubic-bezier(0.22, 0.8, 0.28, 1) 0.35s,
-    opacity 0.6s ease 0.2s;
+    opacity 0.55s ease 0.25s,
+    visibility 0s linear 0.9s;
 }
 
 .envelope.is-open .mini-card {
-  transform: translateY(-58%);
+  visibility: visible;
+  transform: translateY(-46%);
   opacity: 1;
+  transition:
+    transform 1s cubic-bezier(0.22, 0.8, 0.28, 1) 0.35s,
+    opacity 0.55s ease 0.25s,
+    visibility 0s linear 0s;
 }
 
 .snowflake {
@@ -316,10 +367,17 @@ body {
     transition: none !important;
   }
 
-  .envelope.is-open .envelope-flap,
-  .envelope.is-open .mini-card,
+  .envelope.is-open .envelope-flap {
+    transform: rotateX(186deg);
+  }
+
+  .envelope.is-open .mini-card {
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(110%);
+  }
+
   .envelope.is-open .wax-seal {
-    transform: none;
-    opacity: 1;
+    opacity: 0;
   }
 }

@@ -11,6 +11,7 @@ const navItems = [
   { href: "#flights", label: "Flights" },
   { href: "#itinerary", label: "Days" },
   { href: "#menu", label: "Menu" },
+  { href: "#playlist", label: "Playlist" },
   { href: "#rsvp", label: "RSVP" },
 ];
 

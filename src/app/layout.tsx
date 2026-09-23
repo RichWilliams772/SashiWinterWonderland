@@ -36,12 +36,12 @@ export const metadata: Metadata = {
     title: "Sashi’s Wonderland — A Pink Winter Birthday Getaway",
     description:
       "Pack your bags, babe. We’re going to Wonderland. December 17–20, 2026 in Cle Elum, Washington.",
-    images: ["/images/cabin-exterior.png"],
+    images: ["/images/invitation-card.png"],
     type: "website",
   },
   icons: {
     icon: "/favicon.svg",
-    apple: "/images/cabin-exterior.png",
+    apple: "/favicon.svg",
   },
 };
 

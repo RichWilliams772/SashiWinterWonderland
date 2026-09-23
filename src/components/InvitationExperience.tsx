@@ -38,7 +38,7 @@ export function InvitationExperience() {
   useEffect(() => {
     if (phase !== "opening") return;
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const delay = prefersReduced ? 0 : 1600;
+    const delay = prefersReduced ? 0 : 1800;
     const id = window.setTimeout(() => {
       persist("revealed");
       setPhase("revealed");

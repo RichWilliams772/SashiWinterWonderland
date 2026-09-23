@@ -16,51 +16,13 @@ export function EnvelopeOpening({ phase, onOpen, onExplore }: EnvelopeOpeningPro
   const isOpen = phase !== "sealed";
 
   return (
-    <div className="wonderland-bg relative flex min-h-dvh flex-col overflow-hidden px-4 py-10">
-      <Image
-        src="/images/wonderland-forest.png"
-        alt=""
-        fill
-        className="object-cover opacity-25"
-        sizes="100vw"
-        priority
-      />
+    <div className="opening-bg relative flex min-h-dvh flex-col overflow-x-hidden px-4 pt-[max(1rem,env(safe-area-inset-top))] pb-[max(1rem,env(safe-area-inset-bottom))]">
       <Snowfall />
       <Starfield />
       <PineDecor />
-      <div className="relative z-10 mx-auto flex w-full max-w-md flex-1 flex-col items-center justify-center text-center">
-        {phase !== "revealed" ? (
-          <>
-            <p className="font-script text-4xl leading-tight text-ink sm:text-5xl">
-              {trip.inviteLine}
-            </p>
-            <p className="mt-3 text-sm tracking-[0.22em] text-ink-soft uppercase">
-              {trip.dates.display}
-            </p>
-            <div className="relative mt-10">
-              <Image
-                src="/images/pink-envelope.png"
-                alt=""
-                width={420}
-                height={315}
-                className={`pointer-events-none absolute -inset-x-10 -top-16 mx-auto w-[calc(100%+5rem)] opacity-35 ${
-                  isOpen ? "opacity-0 transition-opacity duration-700" : ""
-                }`}
-                priority
-              />
-              <Envelope isOpen={isOpen} onOpen={onOpen} />
-            </div>
-            <button
-              type="button"
-              onClick={onOpen}
-              disabled={isOpen}
-              className="satin-btn mt-10 min-h-12 rounded-full px-7 text-sm font-semibold text-ink disabled:opacity-70"
-            >
-              Click to Open 💗
-            </button>
-          </>
-        ) : (
-          <article className="reveal-card relative w-full overflow-hidden rounded-[2rem] shadow-[0_30px_70px_rgba(90,45,58,0.18)]">
+      <div className="relative z-10 mx-auto flex w-full max-w-lg flex-1 flex-col items-center justify-center text-center">
+        {phase === "revealed" ? (
+          <article className="reveal-card relative w-full max-w-md overflow-hidden rounded-[2rem] shadow-[0_30px_70px_rgba(90,45,58,0.18)]">
             <Image
               src="/images/invitation-card.png"
               alt=""
@@ -69,7 +31,7 @@ export function EnvelopeOpening({ phase, onOpen, onExplore }: EnvelopeOpeningPro
               sizes="420px"
             />
             <div className="absolute inset-0 bg-ivory/80" />
-            <div className="relative px-6 py-12">
+            <div className="relative px-6 py-10 sm:py-12">
               <p className="text-[0.7rem] font-semibold tracking-[0.28em] text-rose uppercase">
                 {trip.eventName}
               </p>
@@ -89,6 +51,27 @@ export function EnvelopeOpening({ phase, onOpen, onExplore }: EnvelopeOpeningPro
               </button>
             </div>
           </article>
+        ) : (
+          <div className="flex w-full max-w-md flex-col items-center gap-4 sm:gap-6">
+            <div>
+              <p className="font-script text-[2rem] leading-tight text-ink sm:text-4xl md:text-5xl">
+                {trip.inviteLine}
+              </p>
+              <p className="mt-2 text-[0.7rem] tracking-[0.22em] text-ink-soft uppercase sm:mt-3 sm:text-sm">
+                {trip.dates.display}
+              </p>
+            </div>
+            <Envelope isOpen={isOpen} onOpen={onOpen} />
+            {phase === "sealed" ? (
+              <button
+                type="button"
+                onClick={onOpen}
+                className="satin-btn relative z-20 min-h-12 shrink-0 rounded-full px-7 text-sm font-semibold text-ink"
+              >
+                Click to Open 💗
+              </button>
+            ) : null}
+          </div>
         )}
       </div>
     </div>

@@ -72,28 +72,27 @@ export const trip = {
     title: "Our Snowy Cabin",
     location: "Cle Elum, Washington",
     airbnbUrl: "https://www.airbnb.com/rooms/1096282701627665132",
-    airbnbLabel: "View Our Cabin",
+    airbnbLabel: "View Our Actual Airbnb 🏡",
     poolNote:
       "The heated pool is included in the $590 shared trip contribution for all three nights.",
     bookingNote:
-      "Cabin details are from our trip plan. Please use the Airbnb listing for the latest photos, house rules, and availability information.",
-    gallery: [
+      "The real cabin photos, house rules, and latest details live on our Airbnb listing. Please use that link for the confirmed stay.",
+    highlights: [
       {
-        src: "/images/cabin-exterior.png",
-        alt: "Snowy mountain cabin glowing at dusk in a pink winter landscape",
-        caption: "Our winter hideaway",
+        title: "Cle Elum, Washington",
+        detail: "A snowy mountain hideaway for December 17–20, 2026.",
       },
       {
-        src: "/images/cabin-interior.png",
-        alt: "Cozy cabin living room with a fireplace, fairy lights, and blush blankets",
-        caption: "Fireside evenings",
+        title: "Heated pool nights",
+        detail: "The heated pool is included in the shared trip contribution.",
       },
       {
-        src: "/images/cabin-pool.png",
-        alt: "Steamy outdoor heated pool surrounded by snow and warm lantern light",
-        caption: "Heated pool nights",
+        title: "See the real cabin",
+        detail: "Open the Airbnb listing for confirmed photos of our actual stay.",
       },
     ],
+    // Add permitted Airbnb photos later as { src, alt, caption }.
+    photos: [] as readonly { src: string; alt: string; caption: string }[],
   },
 
   flights: {
@@ -472,6 +471,19 @@ export const trip = {
     placeholder: "Add your own game night idea",
     button: "Add idea",
     helper: "Got a favorite? Drop it in the box and add it to our lineup.",
+  },
+
+  playlist: {
+    heading: "Our Wonderland Playlist 🎶",
+    subtitle:
+      "Every Wonderland needs a soundtrack! Add your favorite songs so we can make the perfect playlist for our trip. 💗",
+    addButton: "Add Song 🎵",
+    success: "Added to the Wonderland playlist 💗",
+    alreadyListed: "That song is already on the Wonderland playlist 💗",
+    empty: "Be the first to add a song, love.",
+    setupIncomplete:
+      "The playlist is still being set up. Your song was not saved yet. Please try again after setup is complete.",
+    pdfNote: "Add songs on the invitation under Our Wonderland Playlist.",
   },
 
   rsvp: {

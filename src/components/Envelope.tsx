@@ -4,20 +4,20 @@ import { BowIcon } from "@/components/icons";
 
 type EnvelopeProps = {
   isOpen: boolean;
-  onOpen: () => void;
+  onOpen?: () => void;
 };
 
 export function Envelope({ isOpen, onOpen }: EnvelopeProps) {
   return (
     <div className="envelope-scene">
-      <button
-        type="button"
-        className={`envelope mx-auto block ${isOpen ? "is-open" : ""}`}
-        onClick={onOpen}
-        disabled={isOpen}
-        aria-label="Open the invitation envelope"
+      <div className="envelope-bow" aria-hidden="true">
+        <BowIcon className="h-auto w-full" />
+      </div>
+      <div
+        className={`envelope mx-auto ${isOpen ? "is-open" : ""}`}
+        onClick={isOpen ? undefined : onOpen}
       >
-        <span className="mini-card flex items-center justify-center px-4 text-center">
+        <span className="mini-card flex items-center justify-center px-4 text-center" aria-hidden="true">
           <span className="font-display text-lg italic leading-tight text-rose">
             Sashi’s Wonderland
           </span>
@@ -40,10 +40,7 @@ export function Envelope({ isOpen, onOpen }: EnvelopeProps) {
             <circle cx="24" cy="24" r="4" fill="#fff6f0" />
           </svg>
         </span>
-        <span className="absolute -top-7 left-1/2 z-10 w-16 -translate-x-1/2">
-          <BowIcon className="h-auto w-full" />
-        </span>
-      </button>
+      </div>
     </div>
   );
 }
