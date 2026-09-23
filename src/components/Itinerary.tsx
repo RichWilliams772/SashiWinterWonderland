@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { GameNightIdeas } from "@/components/GameNightIdeas";
 import { dayIcons } from "@/components/icons";
 import { SectionHeading } from "@/components/SectionHeading";
 import { trip } from "@/data/trip";
@@ -83,9 +82,6 @@ export function Itinerary() {
                           <li key={item}>{item}</li>
                         ))}
                       </ul>
-                      {extra.title === "Game Night Lineup" ? (
-                        <GameNightIdeas official={extra.items} />
-                      ) : null}
                     </div>
                   ))}
                   {day.notes?.map((note) => (

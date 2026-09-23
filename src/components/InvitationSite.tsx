@@ -9,7 +9,6 @@ import { Links } from "@/components/Links";
 import { Menu } from "@/components/Menu";
 import { Packing } from "@/components/Packing";
 import { PineDecor, Starfield } from "@/components/PineDecor";
-import { Playlist } from "@/components/Playlist";
 import { Pricing } from "@/components/Pricing";
 import { RSVPForm } from "@/components/RSVPForm";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -42,7 +41,6 @@ export function InvitationSite() {
         <Menu />
         <Packing />
         <DressCode />
-        <Playlist />
         <Links />
         <RSVPForm />
         <Closing />

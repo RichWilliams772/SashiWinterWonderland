@@ -1,8 +1,6 @@
 -- Run this in the Supabase SQL editor if you are setting up a new project.
--- For an existing project that is missing RSVP tables, run:
--- supabase/migrations/20260922_create_rsvps_and_game_ideas.sql
--- For the trip playlist, also run:
--- supabase/migrations/20260922_create_playlist_songs.sql
+-- RSVP submissions use public.rsvps. The game_ideas and playlist_songs
+-- tables may already exist from earlier versions and can remain unused.
 
 create extension if not exists pgcrypto;
 

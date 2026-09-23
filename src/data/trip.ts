@@ -467,25 +467,6 @@ export const trip = {
     url: "https://chat.whatsapp.com/H454ZFUMlOmFOis1gmKCXa?s=cl&p=i&mlu=4&ilr=4",
   },
 
-  gameNight: {
-    placeholder: "Add your own game night idea",
-    button: "Add idea",
-    helper: "Got a favorite? Drop it in the box and add it to our lineup.",
-  },
-
-  playlist: {
-    heading: "Our Wonderland Playlist 🎶",
-    subtitle:
-      "Every Wonderland needs a soundtrack! Add your favorite songs so we can make the perfect playlist for our trip. 💗",
-    addButton: "Add Song 🎵",
-    success: "Added to the Wonderland playlist 💗",
-    alreadyListed: "That song is already on the Wonderland playlist 💗",
-    empty: "Be the first to add a song, love.",
-    setupIncomplete:
-      "The playlist is still being set up. Your song was not saved yet. Please try again after setup is complete.",
-    pdfNote: "Add songs on the invitation under Our Wonderland Playlist.",
-  },
-
   rsvp: {
     heading: "Will You Join Me in Wonderland? 💌",
     deadlineLine: "Please RSVP by November 20, 2026.",
