@@ -6,14 +6,14 @@ import { SectionHeading } from "@/components/SectionHeading";
 import { trip } from "@/data/trip";
 
 export function Itinerary() {
-  const [openId, setOpenId] = useState<string>("thursday");
+  const [openId, setOpenId] = useState<string>("wednesday");
 
   return (
     <section id="itinerary" className="scroll-mt-24 px-4 py-16">
       <SectionHeading
-        eyebrow="Four Dreamy Days"
+        eyebrow="Five Days Together"
         title="Day-by-Day"
-        subtitle="Tap a day to peek at the plan. Times after landing are approximate unless a flight time is listed."
+        subtitle={trip.itineraryNote}
       />
       <div className="mx-auto mt-10 grid max-w-3xl gap-4">
         {trip.itinerary.map((day) => {
@@ -48,67 +48,13 @@ export function Itinerary() {
               {isOpen ? (
                 <div className="border-t border-white/60 px-5 py-5">
                   <ol className="space-y-3">
-                    {day.items.map((item) => {
-                      const time = "time" in item ? item.time : undefined;
-                      const note = "note" in item ? item.note : undefined;
-                      return (
-                        <li key={`${time ?? ""}-${item.text}`} className="flex gap-3">
-                          {time ? (
-                            <span className="w-24 shrink-0 text-xs font-semibold tracking-wide text-rose uppercase">
-                              {time}
-                            </span>
-                          ) : (
-                            <span className="w-24 shrink-0 text-xs text-rosegold">•</span>
-                          )}
-                          <span>
-                            <span className="block text-sm text-ink">{item.text}</span>
-                            {note ? (
-                              <span className="mt-1 block text-xs leading-relaxed text-ink-soft">
-                                {note}
-                              </span>
-                            ) : null}
-                          </span>
-                        </li>
-                      );
-                    })}
+                    {day.items.map((item) => (
+                      <li key={item.text} className="flex gap-3">
+                        <span className="w-6 shrink-0 text-xs text-rosegold">•</span>
+                        <span className="block text-sm text-ink">{item.text}</span>
+                      </li>
+                    ))}
                   </ol>
-                  {day.extras?.map((extra) => (
-                    <div key={extra.title} className="mt-5 rounded-2xl bg-white/45 px-4 py-4">
-                      <p className="text-[0.68rem] font-semibold tracking-[0.2em] text-rose uppercase">
-                        {extra.title}
-                      </p>
-                      <ul className="mt-2 space-y-1 text-sm text-ink">
-                        {extra.items.map((item) => (
-                          <li key={item}>{item}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                  {day.notes?.map((note) => (
-                    <p key={note} className="mt-4 text-sm leading-relaxed text-ink-soft">
-                      {note}
-                    </p>
-                  ))}
-                  {day.id === "friday" ? (
-                    <a
-                      href={trip.excursions.snowmobiling.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-4 inline-flex text-sm font-semibold text-rose underline-offset-4 hover:underline"
-                    >
-                      Snowmobiling details
-                    </a>
-                  ) : null}
-                  {day.id === "saturday" ? (
-                    <a
-                      href={trip.excursions.suncadia.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-4 inline-flex text-sm font-semibold text-rose underline-offset-4 hover:underline"
-                    >
-                      Snow tubing & holiday activities
-                    </a>
-                  ) : null}
                 </div>
               ) : null}
             </article>

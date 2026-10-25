@@ -6,7 +6,7 @@ import { trip } from "@/data/trip";
 
 const navItems = [
   { href: "#trip", label: "Trip" },
-  { href: "#prices", label: "Prices" },
+  { href: "#prices", label: "Budget" },
   { href: "#cabin", label: "Cabin" },
   { href: "#flights", label: "Flights" },
   { href: "#itinerary", label: "Days" },
@@ -22,7 +22,9 @@ export function SiteHeader() {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <a href="#top" className="flex items-center gap-2 text-ink">
           <SnowflakeIcon className="h-5 w-5 text-rose" />
-          <span className="font-display text-xl italic">{trip.brand}</span>
+          <span className="font-display max-w-[12rem] text-base leading-tight italic sm:max-w-[16rem] sm:text-lg lg:max-w-none">
+            {trip.brand}
+          </span>
         </a>
         <nav className="hidden items-center gap-5 lg:flex" aria-label="Invitation sections">
           {navItems.map((item) => (

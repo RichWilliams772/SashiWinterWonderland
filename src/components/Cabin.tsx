@@ -9,7 +9,7 @@ export function Cabin() {
   return (
     <section id="cabin" className="scroll-mt-24 px-4 py-16">
       <SectionHeading
-        eyebrow="Stay With Me"
+        eyebrow="The Stay"
         title={trip.cabin.title}
         subtitle={trip.cabin.location}
       />
@@ -50,7 +50,7 @@ export function Cabin() {
           <p className="font-display relative mt-4 text-3xl text-ink italic">
             Our winter hideaway
           </p>
-          <p className="relative mx-auto mt-3 max-w-md text-sm leading-relaxed text-ink-soft">
+          <p className="relative mx-auto mt-3 max-w-md text-base leading-relaxed text-ink">
             {trip.cabin.bookingNote}
           </p>
           <div className="relative mx-auto mt-8 grid max-w-xl gap-3 sm:grid-cols-3">
@@ -67,20 +67,6 @@ export function Cabin() {
         </div>
       )}
 
-      <div className="glass-card mx-auto mt-6 max-w-3xl rounded-3xl px-5 py-6 text-center">
-        <p className="text-sm leading-relaxed text-ink">{trip.cabin.poolNote}</p>
-        {photos.length > 0 ? (
-          <p className="mt-3 text-sm leading-relaxed text-ink-soft">{trip.cabin.bookingNote}</p>
-        ) : null}
-        <a
-          href={trip.cabin.airbnbUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="satin-btn mt-5 inline-flex min-h-12 items-center justify-center rounded-full px-6 py-3 text-sm font-semibold text-ink"
-        >
-          {trip.cabin.airbnbLabel}
-        </a>
-      </div>
     </section>
   );
 }

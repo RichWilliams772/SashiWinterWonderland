@@ -1,6 +1,7 @@
 "use client";
 
 import { BowIcon } from "@/components/icons";
+import { trip } from "@/data/trip";
 
 type EnvelopeProps = {
   isOpen: boolean;
@@ -18,8 +19,8 @@ export function Envelope({ isOpen, onOpen }: EnvelopeProps) {
         onClick={isOpen ? undefined : onOpen}
       >
         <span className="mini-card flex items-center justify-center px-4 text-center" aria-hidden="true">
-          <span className="font-display text-lg italic leading-tight text-rose">
-            Sashi’s Wonderland
+          <span className="font-display text-sm italic leading-tight text-rose">
+            {trip.brand}
           </span>
         </span>
         <span className="envelope-pocket">

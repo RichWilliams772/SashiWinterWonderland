@@ -35,7 +35,14 @@ export function Menu() {
       </p>
       <div className="mx-auto mt-8 grid max-w-4xl gap-4">
         {trip.menu.days.map((day) => (
-          <article key={day.id} className="glass-card rounded-[1.8rem] px-5 py-6">
+          <article
+            key={day.id}
+            className={`rounded-[1.8rem] px-5 py-6 ${
+              "featured" in day && day.featured
+                ? "bg-gradient-to-b from-[#f7c9d4] to-[#fde8f0] text-ink shadow-[0_18px_40px_rgba(183,110,121,0.18)]"
+                : "glass-card"
+            }`}
+          >
             <h3 className="font-display text-2xl text-ink italic">{day.dateLabel}</h3>
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
               {day.breakfast ? (

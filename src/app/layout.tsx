@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Great_Vibes, Nunito } from "next/font/google";
+import { trip } from "@/data/trip";
 import "./globals.css";
 
 const script = Great_Vibes({
@@ -29,13 +30,11 @@ export const metadata: Metadata = {
       ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
       : "http://localhost:3000",
   ),
-  title: "Sashi’s Wonderland ❄️💗 — A Pink Winter Birthday Getaway",
-  description:
-    "You’re invited to Sashi’s Wonderland, a pink winter birthday getaway in Cle Elum, Washington. December 17–20, 2026.",
+  title: `${trip.eventName} ${trip.seasonEmoji}`,
+  description: `You’re invited to ${trip.eventName} in ${trip.destination}. ${trip.dates.display}.`,
   openGraph: {
-    title: "Sashi’s Wonderland — A Pink Winter Birthday Getaway",
-    description:
-      "Pack your bags, babe. We’re going to Wonderland. December 17–20, 2026 in Cle Elum, Washington.",
+    title: trip.eventName,
+    description: `${trip.welcome} ${trip.dates.display} in ${trip.destination}.`,
     images: ["/images/invitation-card.png"],
     type: "website",
   },

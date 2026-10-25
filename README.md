@@ -1,6 +1,6 @@
-# Sashi’s Wonderland ❄️💗
+# Sashi and Tabby’s Winter Wonderland ❄️💗
 
-A mobile-first virtual birthday invitation for Sashi’s pink winter getaway in Cle Elum, Washington.
+A mobile-first invitation for Sashi and Tabby’s winter getaway in Suncadia / Cle Elum, Washington.
 
 Trip dates, prices, meals, flights, and links live in one file:
 
@@ -42,7 +42,7 @@ SUPABASE_URL=https://YOUR_PROJECT.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=YOUR_SERVICE_ROLE_KEY
 RESEND_API_KEY=YOUR_RESEND_API_KEY
 RSVP_NOTIFICATION_EMAIL=you@example.com
-RSVP_FROM_EMAIL=Sashi's Wonderland <beth.t@example.com>
+RSVP_FROM_EMAIL=Sashi and Tabby's Winter Wonderland <beth.t@example.com>
 ```
 
 6. Restart `npm run dev` and send a test RSVP.
@@ -67,13 +67,13 @@ After deploy, send one RSVP yourself and confirm the row appears in the Supabase
 
 ## What guests see
 
-- Shared trip contribution: **$590** (food and drinks, heated pool, and transportation)
-- Estimated round-trip flight: **$674**
-- Estimated base trip total: **$1,264**
-- RSVP deadline: November 20, 2026
-- Payment deadline: December 1, 2026
+- Estimated contribution: **$640 per paying guest**
+- Includes Airbnb, car rental, groceries, liquor, and Saturday’s private chef dinner
+- Flights and excursions are not included
+- RSVP deadline: November 14, 2026
+- The Airbnb has not been chosen yet
 
-Payment instructions are a labeled placeholder until you add them in `src/data/trip.ts`.
+There is no payment deadline on the invitation. Final costs will be confirmed before payment.
 
 ## Useful edits
 

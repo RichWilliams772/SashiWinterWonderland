@@ -1,1 +1,1 @@
-export const TRIP_PDF_FILENAME = "Sashis_Wonderland_Trip_Details.pdf";
+export const TRIP_PDF_FILENAME = "Sashi_and_Tabbys_Winter_Wonderland.pdf";

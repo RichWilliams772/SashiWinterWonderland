@@ -85,7 +85,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         ok: false,
-        message: "We could not save your RSVP just now. Please try again or message Sashi.",
+        message: "We could not save your RSVP just now. Please try again or message Sashi or Tabby.",
       },
       { status: 502 },
     );

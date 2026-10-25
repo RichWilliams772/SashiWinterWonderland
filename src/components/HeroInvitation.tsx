@@ -22,7 +22,7 @@ export function HeroInvitation() {
             <p className="mt-3 text-[0.7rem] font-semibold tracking-[0.32em] text-rose uppercase">
               {trip.eventSubtitle}
             </p>
-            <h1 className="font-script mt-3 text-5xl leading-tight text-ink sm:text-6xl">
+            <h1 className="font-script mt-3 text-[2.65rem] leading-[1.15] text-ink sm:text-6xl">
               {trip.brand}
             </h1>
             <div className="gold-line mx-auto mt-5 h-px w-28" />

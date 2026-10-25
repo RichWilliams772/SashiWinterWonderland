@@ -9,7 +9,7 @@ import {
   Text,
   View,
 } from "@react-pdf/renderer";
-import { formatUsd, trip } from "@/data/trip";
+import { trip } from "@/data/trip";
 
 Font.registerHyphenationCallback((word) => [word]);
 
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     paddingTop: 7,
     paddingBottom: 7,
     paddingHorizontal: 10,
-    marginBottom: 8,
+    marginBottom: 6,
   },
   dayDate: {
     fontSize: 7.5,
@@ -270,7 +270,7 @@ function PageMarks({ pageLabel }: { pageLabel: string }) {
       <Snowflake top={14} left={12} size={14} />
       <Snowflake top={16} right={12} size={12} />
       <Text style={styles.footerLeft} fixed>
-        {pdfSafe(trip.eventName)}  |  {pdfSafe(trip.destination)}
+        {pdfSafe(trip.eventName)}
       </Text>
       <Text style={styles.footerRight} fixed>
         {pageLabel}
@@ -284,39 +284,25 @@ function DayCard({
 }: {
   day: (typeof trip.itinerary)[number];
 }) {
-  const gameLineup = day.extras?.find((extra) => extra.title === "Game Night Lineup");
-
   return (
     <View wrap={false} style={styles.day}>
       <Text style={styles.dayDate}>{pdfSafe(day.dateLabel)}</Text>
       <Text style={styles.dayTheme}>{pdfSafe(day.theme)}</Text>
-      {day.items.map((item, index) => (
-        <View key={`${day.id}-${index}`} style={styles.item}>
-          <Text style={styles.time}>
-            {"time" in item && item.time ? pdfSafe(item.time) : "•"}
-          </Text>
+      {day.items.map((item) => (
+        <View key={item.text} style={styles.item}>
+          <Text style={styles.time}>•</Text>
           <View style={styles.itemBody}>
             <Text style={styles.itemText}>{pdfSafe(item.text)}</Text>
-            {"note" in item && item.note ? (
-              <Text style={styles.itemNote}>{pdfSafe(item.note)}</Text>
-            ) : null}
           </View>
         </View>
       ))}
-      {gameLineup ? (
-        <View>
-          <Text style={styles.extraLabel}>{pdfSafe(gameLineup.title)}</Text>
-          <Text style={styles.itemText}>{gameLineup.items.map(pdfSafe).join("  ·  ")}</Text>
-        </View>
-      ) : null}
     </View>
   );
 }
 
 export function TripDetailsPdf() {
   const { pricing, deadlines } = trip;
-  const thursday = trip.itinerary[0];
-  const laterDays = trip.itinerary.slice(1);
+  const titleSize = trip.eventName.length > 28 ? 20 : 26;
 
   return (
     <Document
@@ -328,68 +314,75 @@ export function TripDetailsPdf() {
         <PageMarks pageLabel="Page 1 of 2" />
 
         <View style={styles.titleBlock}>
-          <Text style={styles.title}>{pdfSafe(trip.eventName)}</Text>
+          <Text style={[styles.title, { fontSize: titleSize }]}>{pdfSafe(trip.eventName)}</Text>
           <Text style={styles.titleMeta}>{pdfSafe(trip.dates.display)}</Text>
           <Text style={styles.titleMeta}>{pdfSafe(trip.destination)}</Text>
         </View>
 
+        <Text style={[styles.itemText, { marginBottom: 10 }]}>{pdfSafe(trip.welcome)}</Text>
+        <Text style={[styles.muted, { marginBottom: 12 }]}>{pdfSafe(trip.cabin.bookingNote)}</Text>
+
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Cost</Text>
+          <Text style={styles.sectionTitle}>Estimated Contribution</Text>
           <View style={styles.card}>
-            <View style={styles.priceRow}>
-              <Text style={styles.priceLabel}>{pdfSafe(pricing.sharedLabel)}</Text>
-              <Text style={styles.priceAmount}>
-                {formatUsd(pricing.sharedContribution)} per person
-              </Text>
-            </View>
-            <View style={styles.priceRow}>
-              <Text style={styles.priceLabel}>{pdfSafe(pricing.flightLabel)}</Text>
-              <Text style={styles.priceAmount}>
-                {formatUsd(pricing.estimatedFlight)} per person
-              </Text>
-            </View>
-            <View style={[styles.priceRow, { marginBottom: 0 }]}>
-              <Text style={styles.priceLabel}>{pdfSafe(pricing.totalLabel)}</Text>
-              <Text style={styles.priceAmount}>
-                {formatUsd(pricing.estimatedBaseTotal)} per person
-              </Text>
-            </View>
+            <Text style={styles.dayTheme}>{pdfSafe(pricing.amountLine)}</Text>
             <Text style={styles.muted}>{pdfSafe(pricing.includes)}</Text>
-            <Text style={styles.muted}>
-              Lunches out, baggage fees, and optional excursions are separate.
-            </Text>
-            <Text style={styles.muted}>
-              The {formatUsd(pricing.estimatedFlight)} round-trip flight is an estimate.
-              Flight prices may fluctuate.
-            </Text>
+            <Text style={styles.muted}>{pdfSafe(pricing.excluded)}</Text>
+            <Text style={styles.muted}>{pdfSafe(pricing.estimateNote)}</Text>
           </View>
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Important Deadlines</Text>
-          <View style={styles.deadlineRow}>
-            <View style={[styles.card, styles.deadlineCol, styles.deadlineGap]}>
-              <Text style={styles.deadlineLabel}>{pdfSafe(deadlines.rsvp.label)}</Text>
-              <Text style={styles.deadlineDate}>{pdfSafe(deadlines.rsvp.display)}</Text>
-            </View>
-            <View style={[styles.card, styles.deadlineCol]}>
-              <Text style={styles.deadlineLabel}>{pdfSafe(deadlines.payment.label)}</Text>
-              <Text style={styles.deadlineDate}>{pdfSafe(deadlines.payment.display)}</Text>
-            </View>
+          <Text style={styles.sectionTitle}>RSVP Deadline</Text>
+          <View style={styles.card}>
+            <Text style={styles.deadlineDate}>{pdfSafe(deadlines.rsvp.display)}</Text>
           </View>
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Four-Day Itinerary</Text>
-          <DayCard day={thursday} />
+          <Text style={styles.sectionTitle}>Itinerary</Text>
+          <Text style={[styles.muted, { marginBottom: 6 }]}>{pdfSafe(trip.itineraryNote)}</Text>
+          {trip.itinerary.slice(0, 3).map((day) => (
+            <DayCard key={day.id} day={day} />
+          ))}
         </View>
       </Page>
-
       <Page size="LETTER" style={styles.page} wrap>
         <PageMarks pageLabel="Page 2 of 2" />
-        {laterDays.map((day) => (
+        {trip.itinerary.slice(3).map((day) => (
           <DayCard key={day.id} day={day} />
         ))}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Meals</Text>
+          <Text style={[styles.muted, { marginBottom: 6 }]}>{pdfSafe(trip.menu.lunchNote)}</Text>
+          {trip.menu.days.map((day) =>
+            day.dinner || day.treats ? (
+              <View key={day.id} style={styles.day} wrap={false}>
+                <Text style={styles.dayDate}>{pdfSafe(day.dateLabel)}</Text>
+                {day.breakfast ? (
+                  <Text style={styles.itemText}>{day.breakfast.items.map(pdfSafe).join(" ")}</Text>
+                ) : null}
+                {day.dinner ? (
+                  <View>
+                    <Text style={styles.extraLabel}>{pdfSafe(day.dinner.title)}</Text>
+                    {day.dinner.items.map((item) => (
+                      <Text key={item} style={styles.itemText}>
+                        • {pdfSafe(item)}
+                      </Text>
+                    ))}
+                  </View>
+                ) : null}
+                {day.treats ? (
+                  <Text style={styles.itemNote}>{day.treats.items.map(pdfSafe).join(" · ")}</Text>
+                ) : null}
+              </View>
+            ) : (
+              <Text key={day.id} style={[styles.itemText, { marginTop: 2 }]}>
+                {pdfSafe(day.dateLabel)}: {day.breakfast ? day.breakfast.items.map(pdfSafe).join(" ") : ""}
+              </Text>
+            ),
+          )}
+        </View>
       </Page>
     </Document>
   );

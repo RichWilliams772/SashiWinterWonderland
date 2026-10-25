@@ -54,7 +54,7 @@ export function EnvelopeOpening({ phase, onOpen, onExplore }: EnvelopeOpeningPro
         ) : (
           <div className="flex w-full max-w-md flex-col items-center gap-4 sm:gap-6">
             <div>
-              <p className="font-script text-[2rem] leading-tight text-ink sm:text-4xl md:text-5xl">
+              <p className="font-script text-[1.65rem] leading-tight text-ink sm:text-4xl">
                 {trip.inviteLine}
               </p>
               <p className="mt-2 text-[0.7rem] tracking-[0.22em] text-ink-soft uppercase sm:mt-3 sm:text-sm">

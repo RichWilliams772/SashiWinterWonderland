@@ -64,7 +64,7 @@ export function Countdown() {
       <div className="glass-card mx-auto mt-8 max-w-lg rounded-3xl px-5 py-5 text-center">
         <p className="font-display text-2xl text-ink italic">Wonderland is here</p>
         <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-          The getaway has begun. Thank you for celebrating Sashi’s birthday in the snow.
+          The getaway has begun. Saturday is the birthday celebration.
         </p>
       </div>
     );
@@ -80,7 +80,7 @@ export function Countdown() {
   return (
     <div className="glass-card mx-auto mt-8 max-w-lg rounded-3xl px-4 py-5 sm:px-6">
       <p className="text-center text-[0.68rem] font-semibold tracking-[0.28em] text-rose uppercase">
-        Until we leave for Wonderland
+        Until the getaway begins
       </p>
       <div className="mt-4 grid grid-cols-4 gap-2 text-center">
         {units.map((unit) => (

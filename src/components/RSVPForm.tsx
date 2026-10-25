@@ -156,7 +156,7 @@ export function RSVPForm() {
               />
             </label>
             <label className="grid gap-2 text-sm">
-              <span className="font-semibold text-ink">Optional message for Sashi</span>
+              <span className="font-semibold text-ink">Optional message</span>
               <textarea
                 name="message"
                 value={message}

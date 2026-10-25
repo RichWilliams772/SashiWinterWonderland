@@ -18,21 +18,6 @@ export function DressCode() {
             <h3 className="font-display mt-2 text-2xl text-ink italic">{look.title}</h3>
             <p className="mt-2 text-base font-semibold text-ink">{look.look}</p>
             <p className="mt-2 text-sm leading-relaxed text-ink-soft">{look.detail}</p>
-            {"shops" in look && look.shops ? (
-              <div className="mt-4 grid gap-2">
-                {look.shops.map((shop) => (
-                  <a
-                    key={shop.url}
-                    href={shop.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="satin-btn inline-flex min-h-11 items-center justify-center rounded-full px-4 text-sm font-semibold text-ink"
-                  >
-                    {shop.label}
-                  </a>
-                ))}
-              </div>
-            ) : null}
           </article>
         ))}
       </div>
