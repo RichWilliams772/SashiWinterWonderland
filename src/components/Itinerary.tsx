@@ -23,9 +23,11 @@ export function Itinerary() {
             <article key={day.id} className="glass-card overflow-hidden rounded-[1.8rem]">
               <h3>
                 <button
+                  id={`${day.id}-toggle`}
                   type="button"
                   className="flex w-full items-center gap-4 px-5 py-5 text-left"
                   aria-expanded={isOpen}
+                  aria-controls={`${day.id}-details`}
                   onClick={() => setOpenId(isOpen ? "" : day.id)}
                 >
                   <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blush/70 text-rose">
@@ -45,18 +47,29 @@ export function Itinerary() {
                   </span>
                 </button>
               </h3>
-              {isOpen ? (
-                <div className="border-t border-white/60 px-5 py-5">
-                  <ol className="space-y-3">
-                    {day.items.map((item) => (
-                      <li key={item.text} className="flex gap-3">
-                        <span className="w-6 shrink-0 text-xs text-rosegold">•</span>
-                        <span className="block text-sm text-ink">{item.text}</span>
-                      </li>
-                    ))}
-                  </ol>
-                </div>
-              ) : null}
+              <div
+                id={`${day.id}-details`}
+                role="region"
+                aria-labelledby={`${day.id}-toggle`}
+                hidden={!isOpen}
+                className="border-t border-white/60 px-5 py-5"
+              >
+                <dl className="grid gap-4">
+                  {day.blocks.map((block) => (
+                    <div key={block.label}>
+                      <dt className="text-[0.68rem] font-semibold tracking-[0.18em] text-rose uppercase">
+                        {block.label}
+                      </dt>
+                      <dd className="mt-1 text-sm leading-relaxed text-ink">{block.text}</dd>
+                    </div>
+                  ))}
+                </dl>
+                {day.notes?.map((note) => (
+                  <p key={note} className="mt-4 text-sm leading-relaxed text-ink-soft">
+                    {note}
+                  </p>
+                ))}
+              </div>
             </article>
           );
         })}

@@ -288,14 +288,55 @@ function DayCard({
     <View wrap={false} style={styles.day}>
       <Text style={styles.dayDate}>{pdfSafe(day.dateLabel)}</Text>
       <Text style={styles.dayTheme}>{pdfSafe(day.theme)}</Text>
-      {day.items.map((item) => (
-        <View key={item.text} style={styles.item}>
-          <Text style={styles.time}>•</Text>
+      {day.blocks.map((block) => (
+        <View key={block.label} style={styles.item}>
           <View style={styles.itemBody}>
-            <Text style={styles.itemText}>{pdfSafe(item.text)}</Text>
+            <Text style={styles.extraLabel}>{pdfSafe(block.label)}</Text>
+            <Text style={styles.itemText}>{pdfSafe(block.text)}</Text>
           </View>
         </View>
       ))}
+      {day.notes?.map((note) => (
+        <Text key={note} style={[styles.itemNote, { marginTop: 6 }]}>
+          {pdfSafe(note)}
+        </Text>
+      ))}
+    </View>
+  );
+}
+
+function MealsSection() {
+  return (
+    <View style={styles.section}>
+      <Text style={styles.sectionTitle}>Meals</Text>
+      <Text style={[styles.muted, { marginBottom: 6 }]}>{pdfSafe(trip.menu.lunchNote)}</Text>
+      {trip.menu.days.map((day) =>
+        day.dinner || day.treats ? (
+          <View key={day.id} style={styles.day} wrap={false}>
+            <Text style={styles.dayDate}>{pdfSafe(day.dateLabel)}</Text>
+            {day.breakfast ? (
+              <Text style={styles.itemText}>{day.breakfast.items.map(pdfSafe).join(" ")}</Text>
+            ) : null}
+            {day.dinner ? (
+              <View>
+                <Text style={styles.extraLabel}>{pdfSafe(day.dinner.title)}</Text>
+                {day.dinner.items.map((item) => (
+                  <Text key={item} style={styles.itemText}>
+                    • {pdfSafe(item)}
+                  </Text>
+                ))}
+              </View>
+            ) : null}
+            {day.treats ? (
+              <Text style={styles.itemNote}>{day.treats.items.map(pdfSafe).join(" · ")}</Text>
+            ) : null}
+          </View>
+        ) : (
+          <Text key={day.id} style={[styles.itemText, { marginTop: 2 }]}>
+            {pdfSafe(day.dateLabel)}: {day.breakfast ? day.breakfast.items.map(pdfSafe).join(" ") : ""}
+          </Text>
+        ),
+      )}
     </View>
   );
 }
@@ -310,8 +351,8 @@ export function TripDetailsPdf() {
       author={trip.host}
       subject={`${pdfSafe(trip.eventName)} — ${pdfSafe(trip.dates.display)}`}
     >
-      <Page size="LETTER" style={styles.page} wrap>
-        <PageMarks pageLabel="Page 1 of 2" />
+      <Page size="LETTER" style={styles.page}>
+        <PageMarks pageLabel="Page 1 of 4" />
 
         <View style={styles.titleBlock}>
           <Text style={[styles.title, { fontSize: titleSize }]}>{pdfSafe(trip.eventName)}</Text>
@@ -342,47 +383,24 @@ export function TripDetailsPdf() {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Itinerary</Text>
           <Text style={[styles.muted, { marginBottom: 6 }]}>{pdfSafe(trip.itineraryNote)}</Text>
-          {trip.itinerary.slice(0, 3).map((day) => (
-            <DayCard key={day.id} day={day} />
-          ))}
+          <DayCard day={trip.itinerary[0]} />
         </View>
       </Page>
-      <Page size="LETTER" style={styles.page} wrap>
-        <PageMarks pageLabel="Page 2 of 2" />
+      <Page size="LETTER" style={styles.page}>
+        <PageMarks pageLabel="Page 2 of 4" />
+        {trip.itinerary.slice(1, 3).map((day) => (
+          <DayCard key={day.id} day={day} />
+        ))}
+      </Page>
+      <Page size="LETTER" style={styles.page}>
+        <PageMarks pageLabel="Page 3 of 4" />
         {trip.itinerary.slice(3).map((day) => (
           <DayCard key={day.id} day={day} />
         ))}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Meals</Text>
-          <Text style={[styles.muted, { marginBottom: 6 }]}>{pdfSafe(trip.menu.lunchNote)}</Text>
-          {trip.menu.days.map((day) =>
-            day.dinner || day.treats ? (
-              <View key={day.id} style={styles.day} wrap={false}>
-                <Text style={styles.dayDate}>{pdfSafe(day.dateLabel)}</Text>
-                {day.breakfast ? (
-                  <Text style={styles.itemText}>{day.breakfast.items.map(pdfSafe).join(" ")}</Text>
-                ) : null}
-                {day.dinner ? (
-                  <View>
-                    <Text style={styles.extraLabel}>{pdfSafe(day.dinner.title)}</Text>
-                    {day.dinner.items.map((item) => (
-                      <Text key={item} style={styles.itemText}>
-                        • {pdfSafe(item)}
-                      </Text>
-                    ))}
-                  </View>
-                ) : null}
-                {day.treats ? (
-                  <Text style={styles.itemNote}>{day.treats.items.map(pdfSafe).join(" · ")}</Text>
-                ) : null}
-              </View>
-            ) : (
-              <Text key={day.id} style={[styles.itemText, { marginTop: 2 }]}>
-                {pdfSafe(day.dateLabel)}: {day.breakfast ? day.breakfast.items.map(pdfSafe).join(" ") : ""}
-              </Text>
-            ),
-          )}
-        </View>
+      </Page>
+      <Page size="LETTER" style={styles.page}>
+        <PageMarks pageLabel="Page 4 of 4" />
+        <MealsSection />
       </Page>
     </Document>
   );

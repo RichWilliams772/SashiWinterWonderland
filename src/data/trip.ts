@@ -1,9 +1,8 @@
 export type AttendingOption = "yes" | "no" | "maybe";
 
-export type ItineraryItem = {
-  time?: string;
+export type ItineraryBlock = {
+  label: string;
   text: string;
-  note?: string;
 };
 
 export type ItineraryDay = {
@@ -13,8 +12,7 @@ export type ItineraryDay = {
   theme: string;
   icon: "birthday" | "snowmobile" | "snow" | "travel";
   subtitle: string;
-  items: ItineraryItem[];
-  extras?: { title: string; items: string[] }[];
+  blocks: ItineraryBlock[];
   notes?: string[];
 };
 
@@ -100,7 +98,7 @@ export const trip = {
   },
 
   itineraryNote:
-    "Activities are tentative and depend on reservations and weather. Nothing listed here is booked yet.",
+    "This is our tentative plan! Excursions are optional and paid separately from the estimated $640 contribution. Activities and timing may change with reservations, weather and road conditions.",
 
   itinerary: [
     {
@@ -109,11 +107,18 @@ export const trip = {
       weekday: "Wednesday",
       theme: "Arrival & Settle In",
       icon: "travel",
-      subtitle: "Land, unwind, and start the trip together",
-      items: [
-        { text: "Arrive in Washington and settle into the cabin" },
-        { text: "Taco night with vegan options" },
-        { text: "Games and hot-tub time" },
+      subtitle: "Arrive, tacos, and hot-tub time",
+      blocks: [
+        {
+          label: "Afternoon",
+          text: "Arrive in Washington, travel to the Airbnb and settle in.",
+        },
+        {
+          label: "Evening",
+          text: "Homemade taco dinner with vegan options, games and hot-tub time.",
+        },
+        { label: "Wear", text: "Comfortable travel layers." },
+        { label: "Meals", text: "Dinner is included." },
       ],
     },
     {
@@ -122,14 +127,28 @@ export const trip = {
       weekday: "Thursday",
       theme: "Winter Fun",
       icon: "snow",
-      subtitle: "A snowy day, then dinner at the cabin",
-      items: [
-        { text: "Breakfast at the cabin" },
-        { text: "Nordic skiing, snow tubing and ice skating" },
+      subtitle: "Winter activities, then cabin dinner",
+      blocks: [
         {
-          text: "Chicken-and-shrimp Alfredo dinner with Caesar salad, garlic bread and vegan options",
+          label: "Morning",
+          text: "Breakfast at the cabin, followed by winter activities.",
         },
-        { text: "Cabin games and relaxation" },
+        {
+          label: "Afternoon",
+          text: "Nordic skiing, snow tubing and ice skating, with a lunch break. Activity order and locations are still being confirmed.",
+        },
+        {
+          label: "Evening",
+          text: "Return for chicken-and-shrimp Alfredo, Caesar salad and garlic bread, with vegan options. Relax with games and hot-tub time.",
+        },
+        {
+          label: "Bring",
+          text: "Waterproof winter clothing, gloves, warm socks and snow boots.",
+        },
+        {
+          label: "Meals",
+          text: "Breakfast and dinner are included. Plan to purchase lunch separately.",
+        },
       ],
     },
     {
@@ -138,12 +157,28 @@ export const trip = {
       weekday: "Friday",
       theme: "Snow Adventures & Christmas PJs",
       icon: "snowmobile",
-      subtitle: "Mountain plans, then pajamas and cocoa",
-      items: [
-        { text: "Breakfast at the cabin" },
-        { text: "Snowmobiling and sleigh rides near Suncadia" },
-        { text: "Homemade pizza night with vegan options" },
-        { text: "Christmas PJs, group pictures, s’mores and hot chocolate" },
+      subtitle: "Snow plans, then Christmas PJs",
+      blocks: [
+        {
+          label: "Morning",
+          text: "Breakfast at the cabin, then snowmobiling near Suncadia.",
+        },
+        {
+          label: "Afternoon",
+          text: "Lunch out and a sleigh ride near Suncadia. Activity order depends on reservations.",
+        },
+        {
+          label: "Evening",
+          text: "Homemade pizza with vegan options, Christmas PJ pictures, s’mores, hot chocolate and games.",
+        },
+        {
+          label: "Bring",
+          text: "Warm waterproof layers for excursions and Christmas pajamas for the evening.",
+        },
+        {
+          label: "Meals",
+          text: "Breakfast and dinner are included. Lunch is separate.",
+        },
       ],
     },
     {
@@ -152,13 +187,31 @@ export const trip = {
       weekday: "Saturday",
       theme: "Leavenworth & Birthday Celebration",
       icon: "birthday",
-      subtitle: "The birthday celebration",
-      items: [
-        { text: "Breakfast at the cabin" },
-        { text: "Alpine coaster and downtown Leavenworth" },
-        { text: "Shopping, pictures and Christmas lights" },
+      subtitle: "Leavenworth, then the birthday celebration",
+      blocks: [
         {
-          text: "Return to the cabin for birthday pictures, a private chef dinner, cake, music and games",
+          label: "Morning",
+          text: "Breakfast at the cabin. Tentatively leave around 11 AM.",
+        },
+        {
+          label: "Afternoon",
+          text: "Alpine coaster first, followed by lunch out, downtown shopping and pictures.",
+        },
+        {
+          label: "Evening",
+          text: "Enjoy the Christmas lights, tentatively leave Leavenworth around 6 PM and return to the Airbnb around 8 PM, depending on road conditions.",
+        },
+        {
+          label: "Birthday celebration",
+          text: "Get ready for birthday pictures, a private chef buffet dinner, Nothing Bundt Cakes, music and games. Dinner time is still being confirmed.",
+        },
+        {
+          label: "Bring",
+          text: "Warm walking clothes and waterproof boots; have a birthday dinner outfit ready at the cabin.",
+        },
+        {
+          label: "Meals",
+          text: "Breakfast and chef dinner are included. Lunch and shopping are separate.",
         },
       ],
     },
@@ -168,10 +221,18 @@ export const trip = {
       weekday: "Sunday",
       theme: "Heading Home",
       icon: "travel",
-      subtitle: "A gentle send-off",
-      items: [
-        { text: "Breakfast at the cabin" },
-        { text: "Pack, clean up and travel to the airport" },
+      subtitle: "Breakfast, checkout, and the airport",
+      blocks: [
+        { label: "Morning", text: "Breakfast, packing and cleanup." },
+        {
+          label: "Later",
+          text: "Check out, return the rental and head to the airport.",
+        },
+        { label: "Wear", text: "Comfortable travel layers." },
+        { label: "Meals", text: "Breakfast is included." },
+      ],
+      notes: [
+        "Departure timing will be shared once flights and checkout arrangements are confirmed.",
       ],
     },
   ] satisfies ItineraryDay[],
