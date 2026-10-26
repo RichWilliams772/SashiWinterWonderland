@@ -381,26 +381,10 @@ export const trip = {
     ],
   },
 
-  links: [
-    {
-      id: "whatsapp",
-      title: "WhatsApp Group",
-      detail: "Join the group chat",
-      url: "https://chat.whatsapp.com/H454ZFUMlOmFOis1gmKCXa?s=cl&p=i&mlu=4&ilr=4",
-      icon: "chat" as const,
-    },
-  ],
-
-  whatsapp: {
-    label: "Join the Group Chat 💬",
-    url: "https://chat.whatsapp.com/H454ZFUMlOmFOis1gmKCXa?s=cl&p=i&mlu=4&ilr=4",
-  },
-
   rsvp: {
     heading: "Will You Join Us? 💌",
     deadlineLine: "Please RSVP by November 14, 2026.",
-    success:
-      "Your RSVP is in. We can’t wait to see you — join the group chat so you don’t miss a thing.",
+    success: "Your RSVP is in. We can’t wait to see you.",
     setupIncomplete:
       "RSVP setup is still being finished. Your response was not saved yet. Please message Sashi or Tabby directly or try again after setup is complete.",
   },

@@ -5,7 +5,6 @@ import { Flights } from "@/components/Flights";
 import { FloatingActions } from "@/components/FloatingActions";
 import { HeroInvitation } from "@/components/HeroInvitation";
 import { Itinerary } from "@/components/Itinerary";
-import { Links } from "@/components/Links";
 import { Menu } from "@/components/Menu";
 import { Packing } from "@/components/Packing";
 import { PineDecor, Starfield } from "@/components/PineDecor";
@@ -41,7 +40,6 @@ export function InvitationSite() {
         <Menu />
         <Packing />
         <DressCode />
-        <Links />
         <RSVPForm />
         <Closing />
       </main>

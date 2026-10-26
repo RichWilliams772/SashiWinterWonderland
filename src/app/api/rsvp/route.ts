@@ -8,11 +8,87 @@ export const runtime = "nodejs";
 
 const WINDOW_MS = 10 * 60 * 1000;
 const MAX_PER_WINDOW = 5;
+const INSERT_ATTEMPTS = 3;
+const RETRYABLE_STATUS = new Set([502, 503, 504, 520, 521, 522, 523, 524]);
 const attempts = new Map<string, number[]>();
 
 function clientKey(request: Request) {
   const forwarded = request.headers.get("x-forwarded-for");
   return forwarded?.split(",")[0]?.trim() || "local";
+}
+
+function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function readSupabaseError(response: Response) {
+  const text = await response.text().catch(() => "");
+  try {
+    const body = JSON.parse(text) as { code?: unknown; message?: unknown };
+    return {
+      code: typeof body.code === "string" ? body.code : "",
+      message: typeof body.message === "string" ? body.message.slice(0, 180) : "",
+    };
+  } catch {
+    return { code: "", message: text.replace(/\s+/g, " ").trim().slice(0, 180) };
+  }
+}
+
+function fetchFailure(error: unknown) {
+  const cause =
+    error instanceof Error && "cause" in error
+      ? (error.cause as { code?: unknown })
+      : undefined;
+  return {
+    code: typeof cause?.code === "string" ? cause.code : "fetch_failed",
+    message: error instanceof Error ? error.message : "fetch failed",
+  };
+}
+
+async function insertRsvp(
+  admin: { url: string; headers: Record<string, string> },
+  values: { fullName: string; contact: string; attending: string; dietary: string; message: string },
+) {
+  for (let attempt = 1; attempt <= INSERT_ATTEMPTS; attempt += 1) {
+    try {
+      const response = await fetch(`${admin.url}/rest/v1/rsvps`, {
+        method: "POST",
+        headers: admin.headers,
+        body: JSON.stringify({
+          full_name: values.fullName,
+          contact: values.contact,
+          attending: values.attending,
+          dietary: values.dietary || null,
+          message: values.message || null,
+        }),
+        signal: AbortSignal.timeout(8000),
+      });
+
+      if (response.ok) return true;
+
+      const detail = await readSupabaseError(response);
+      console.error("Supabase RSVP insert failed", {
+        attempt,
+        status: response.status,
+        code: detail.code,
+        message: detail.message,
+      });
+      if (!RETRYABLE_STATUS.has(response.status) || attempt === INSERT_ATTEMPTS) return false;
+    } catch (error) {
+      const detail = fetchFailure(error);
+      console.error("Supabase RSVP insert failed", {
+        attempt,
+        status: 0,
+        code: detail.code,
+        message: detail.message,
+      });
+      if (attempt === INSERT_ATTEMPTS) return false;
+    }
+
+    await wait(500 * attempt);
+  }
+
+  return false;
 }
 
 function tooMany(key: string) {
@@ -68,20 +144,8 @@ export async function POST(request: Request) {
     );
   }
 
-  const response = await fetch(`${admin.url}/rest/v1/rsvps`, {
-    method: "POST",
-    headers: admin.headers,
-    body: JSON.stringify({
-      full_name: parsed.values.fullName,
-      contact: parsed.values.contact,
-      attending: parsed.values.attending,
-      dietary: parsed.values.dietary || null,
-      message: parsed.values.message || null,
-    }),
-  });
-
-  if (!response.ok) {
-    console.error("Supabase RSVP insert failed", response.status);
+  const saved = await insertRsvp(admin, parsed.values);
+  if (!saved) {
     return NextResponse.json(
       {
         ok: false,

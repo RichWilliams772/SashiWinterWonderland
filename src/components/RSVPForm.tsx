@@ -45,12 +45,21 @@ export function RSVPForm() {
           website,
         }),
       });
-      const data = (await response.json()) as {
+      let data: {
         ok?: boolean;
         message?: string;
         setupIncomplete?: boolean;
         errors?: RsvpFieldErrors;
       };
+      try {
+        data = (await response.json()) as typeof data;
+      } catch {
+        setStatus({
+          kind: "error",
+          message: "We could not save your RSVP just now. Please try again or message Sashi or Tabby.",
+        });
+        return;
+      }
 
       if (data.errors) setErrors(data.errors);
 
@@ -72,7 +81,7 @@ export function RSVPForm() {
     } catch {
       setStatus({
         kind: "error",
-        message: "We could not reach the RSVP service. Please try again.",
+        message: "We could not save your RSVP just now. Please try again or message Sashi or Tabby.",
       });
     }
   }
@@ -85,14 +94,6 @@ export function RSVPForm() {
           <div className="mt-8 rounded-3xl bg-white/55 px-5 py-6 text-center" role="status">
             <p className="font-display text-2xl text-ink italic">You’re on the list</p>
             <p className="mt-3 text-sm leading-relaxed text-ink-soft">{status.message}</p>
-            <a
-              href={trip.whatsapp.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="satin-btn mt-5 inline-flex rounded-full px-6 py-3 text-sm font-semibold text-ink"
-            >
-              {trip.whatsapp.label}
-            </a>
           </div>
         ) : (
           <form className="relative mt-8 grid gap-4" onSubmit={onSubmit} noValidate>
@@ -197,16 +198,6 @@ export function RSVPForm() {
             </button>
           </form>
         )}
-        <div className="mt-8 text-center">
-          <a
-            href={trip.whatsapp.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#25D366] px-6 py-3 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(37,211,102,0.28)]"
-          >
-            {trip.whatsapp.label}
-          </a>
-        </div>
       </div>
     </section>
   );

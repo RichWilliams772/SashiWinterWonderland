@@ -27,8 +27,20 @@ function getNotificationConfig() {
   const apiKey = sanitizeEnv(process.env.RESEND_API_KEY);
   const to = sanitizeEnv(process.env.RSVP_NOTIFICATION_EMAIL);
   const from = sanitizeEnv(process.env.RSVP_FROM_EMAIL);
+  const missing = [
+    !apiKey ? "RESEND_API_KEY" : "",
+    !to ? "RSVP_NOTIFICATION_EMAIL" : "",
+    !from ? "RSVP_FROM_EMAIL" : "",
+  ].filter(Boolean);
 
-  if (!apiKey || !to || !from) return null;
+  if (missing.length > 0) {
+    console.error("RSVP notification email failed", {
+      message: "Notification settings are missing.",
+      missing,
+    });
+    return null;
+  }
+
   return { apiKey, to, from };
 }
 
@@ -103,12 +115,18 @@ export async function sendRsvpNotification(values: RsvpPayload) {
     );
 
     if (error) {
-      console.error("RSVP notification email failed");
+      console.error("RSVP notification email failed", {
+        name: error.name,
+        message: error.message,
+        statusCode: "statusCode" in error ? error.statusCode : undefined,
+      });
       return;
     }
 
     markNotified(key);
-  } catch {
-    console.error("RSVP notification email failed");
+  } catch (error) {
+    console.error("RSVP notification email failed", {
+      message: error instanceof Error ? error.message : "Email notification threw before Resend responded.",
+    });
   }
 }
